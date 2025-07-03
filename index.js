@@ -270,7 +270,7 @@ async function run() {
       }
     });
 
-    // Update Artifact
+    // Update Artifacts
     app.put("/artifacts/:id", verifyJWT, async (req, res) => {
       const { id } = req.params;
       if (!ObjectId.isValid(id))
