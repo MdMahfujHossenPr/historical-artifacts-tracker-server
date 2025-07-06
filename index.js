@@ -397,7 +397,7 @@ async function run() {
       }
     });
 
-    // Health Check
+    // Health CHECK
     app.get("/", (req, res) => {
       res.status(200).json({ message: "✅ Server running", version: "1.0.0" });
     });
