@@ -402,7 +402,7 @@ async function run() {
       res.status(200).json({ message: "✅ Server running", version: "1.0.0" });
     });
 
-    // 404 Page
+    // 404 Pages
     app.use((req, res) => {
       res.status(404).send("❌ 404 - Not Found");
     });
