@@ -3,3 +3,4 @@ node_modules
 firebase-service-Key.json
 *.json text eol=lf
 *.js text eol=lf
+.vercel
