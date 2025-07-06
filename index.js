@@ -380,7 +380,7 @@ async function run() {
       }
     });
 
-    // Search
+    // SEARCH
     app.get("/search", async (req, res) => {
       const name = req.query.name;
       if (!name)
