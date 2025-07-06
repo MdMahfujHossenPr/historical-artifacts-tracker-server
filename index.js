@@ -234,7 +234,7 @@ async function run() {
       }
     });
 
-    // Get Top six Featured Artifacts
+    // Get Top Six Featured Artifacts
     app.get("/artifacts/featured", async (req, res) => {
       try {
         const result = await artifactsCollection
