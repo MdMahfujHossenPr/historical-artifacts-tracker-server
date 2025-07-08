@@ -192,7 +192,7 @@ function setupRoutes() {
     }
   });
 
-  // Artifacts routes
+  // Artifacts Routes
   app.post("/artifacts", verifyJWT, async (req, res) => {
     const artifact = req.body;
     artifact.adderEmail = req.user.email;
