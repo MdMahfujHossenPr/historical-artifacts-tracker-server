@@ -357,6 +357,68 @@ function setupRoutes() {
     }
   });
 
+  // --- REVIEWS POST ---
+  app.post("/reviews/:id", verifyJWT, async (req, res) => {
+    const artifactId = req.params.id;
+    const userEmail = req.user.email;
+    const userName = req.user.name || "Anonymous";
+    const { review } = req.body;
+
+    if (!ObjectId.isValid(artifactId)) {
+      return res.status(400).json({ error: "Invalid artifact ID" });
+    }
+    if (!review || review.trim() === "") {
+      return res.status(400).json({ error: "Review text is required" });
+    }
+
+    try {
+      const artifact = await artifactsCollection.findOne({ _id: new ObjectId(artifactId) });
+      if (!artifact) {
+        return res.status(404).json({ error: "Artifact not found" });
+      }
+
+      const reviewDoc = {
+        artifactId,
+        userEmail,
+        userName,
+        review: review.trim(),
+        createdAt: new Date(),
+      };
+
+      const result = await db.collection("reviews").insertOne(reviewDoc);
+
+      return res.status(201).json({
+        _id: result.insertedId,
+        ...reviewDoc,
+      });
+    } catch (error) {
+      console.error("Error posting review:", error);
+      return res.status(500).json({ error: "Failed to post review" });
+    }
+  });
+
+  // --- REVIEWS GET --
+  app.get("/reviews/:id", verifyJWT, async (req, res) => {
+    const artifactId = req.params.id;
+
+    if (!ObjectId.isValid(artifactId)) {
+      return res.status(400).json({ error: "Invalid artifact ID" });
+    }
+
+    try {
+      const reviews = await db
+        .collection("reviews")
+        .find({ artifactId })
+        .sort({ createdAt: -1 })
+        .toArray();
+
+      return res.json(reviews);
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+      return res.status(500).json({ error: "Failed to fetch reviews" });
+    }
+  });
+
   // 404 handler
   app.use((req, res) => {
     res.status(404).send("❌ 404 - Not Found");
