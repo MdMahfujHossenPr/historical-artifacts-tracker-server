@@ -397,7 +397,7 @@ function setupRoutes() {
     }
   });
 
-  // --- REVIEWS GET --
+  // --- REVIEWS GET ---
   app.get("/reviews/:id", verifyJWT, async (req, res) => {
     const artifactId = req.params.id;
 
